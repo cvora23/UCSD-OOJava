@@ -8,6 +8,7 @@ import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
+
 /** HelloWorld
   * An application with two maps side-by-side zoomed in on different locations.
   * Author: UC San Diego Coursera Intermediate Programming team
@@ -32,7 +33,7 @@ public class HelloWorld extends PApplet
 	/** The map we use to display our home town: La Jolla, CA */
 	UnfoldingMap map1;
 	
-	/** The map you will use to display your home town */ 
+	/** The map you will use to display your home town - Ghatkopar, Mumbai India.*/ 
 	UnfoldingMap map2;
 
 	public void setup() {
@@ -43,8 +44,7 @@ public class HelloWorld extends PApplet
 
 		// This sets the background color for the Applet.  
 		// Play around with these numbers and see what happens!
-		this.background(200, 200, 200);
-		
+		this.background(0, 255, 0);
 		// Select a map provider
 		AbstractMapProvider provider = new Google.GoogleTerrainProvider();
 		// Set a zoom level
@@ -65,7 +65,7 @@ public class HelloWorld extends PApplet
 		// The 6th argument specifies the map provider.  
 		// There are several providers built-in.
 		// Note if you are working offline you must use the MBTilesMapProvider
-		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider);
+		map1 = new UnfoldingMap(this, 50, 50, 250, 400, provider);
 
 		// The next line zooms in and centers the map at 
 	    // 32.9 (latitude) and -117.2 (longitude)
@@ -76,14 +76,24 @@ public class HelloWorld extends PApplet
 		
 		// TODO: Add code here that creates map2 
 		// Then you'll modify draw() below
+		// DONE:
+		map2 = new UnfoldingMap(this, 500, 50, 250, 400, provider);
 
+		// The next line zooms in and centers the map at 
+	    // 32.9 (latitude) and -117.2 (longitude)
+	    map2.zoomAndPanTo(zoomLevel, new Location(19.081749f, 72.911897f));
+		
+		// This line makes the map interactive
+		MapUtils.createDefaultEventDispatcher(this, map2);
 	}
 
 	/** Draw the Applet window.  */
 	public void draw() {
 		// So far we only draw map1...
 		// TODO: Add code so that both maps are displayed
+		// DONE:
 		map1.draw();
+		map2.draw();
 	}
 
 	

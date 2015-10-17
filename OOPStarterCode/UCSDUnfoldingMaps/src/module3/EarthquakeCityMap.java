@@ -6,6 +6,7 @@ import java.util.ArrayList;
 //import java.util.Comparator;
 import java.util.List;
 
+
 //Processing library
 import processing.core.PApplet;
 
@@ -65,34 +66,57 @@ public class EarthquakeCityMap extends PApplet {
 		
 	    map.zoomToLevel(2);
 	    MapUtils.createDefaultEventDispatcher(this, map);	
-			
-	    // The List you will populate with new SimplePointMarkers
-	    List<Marker> markers = new ArrayList<Marker>();
 
 	    //Use provided parser to collect properties for each earthquake
 	    //PointFeatures have a getLocation method
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
-	    
-	    // These print statements show you (1) all of the relevant properties 
-	    // in the features, and (2) how to get one property and use it
-	    if (earthquakes.size() > 0) {
-	    	PointFeature f = earthquakes.get(0);
-	    	System.out.println(f.getProperties());
-	    	Object magObj = f.getProperty("magnitude");
-	    	float mag = Float.parseFloat(magObj.toString());
-	    	// PointFeatures also have a getLocation method
-	    }
-	    
+	    	    
 	    // Here is an example of how to use Processing's color method to generate 
 	    // an int that represents the color yellow.  
-	    int yellow = color(255, 255, 0);
 	    
 	    //TODO: Add code here as appropriate
+	    // DONE:
+	    // These print statements show you (1) all of the relevant properties 
+	    // in the features, and (2) how to get one property and use it
+	    for (PointFeature earthquake: earthquakes) {
+	    	System.out.println(earthquake.getProperties());
+	    	Object magObj = earthquake.getProperty("magnitude");
+	    	float mag = Float.parseFloat(magObj.toString());
+	    	// PointFeatures also have a getLocation method
+	    	SimplePointMarker marker = createMarker(earthquake); 
+		    enhanceMarker(marker,mag);
+		    map.addMarker(marker);
+	    }
 	}
+	
+	//Helper method to color each country based on life expectancy
+	//Red-orange indicates low (near 40)
+	//Blue indicates high (near 100)
+	private void enhanceMarker(SimplePointMarker marker,float mag) {
+	    int red = color(255, 0, 0);
+	    int redRadius = 20;
+	    int yellow = color(255, 255, 0);
+	    int yellowRadius = 10;
+	    int blue = color(0,0,255);
+	    int blueRadius = 5;
+	    
+		if(mag >5.0){
+			marker.setColor(red);
+			marker.setRadius(redRadius);
+		}else if(mag>4.0){
+			marker.setColor(yellow);
+			marker.setRadius(yellowRadius);
+		}else{
+			marker.setColor(blue);
+			marker.setRadius(blueRadius);
+		}
+	}
+
 		
 	// A suggested helper method that takes in an earthquake feature and 
 	// returns a SimplePointMarker for that earthquake
 	// TODO: Implement this method and call it from setUp, if it helps
+	// DONE:
 	private SimplePointMarker createMarker(PointFeature feature)
 	{
 		// finish implementing and use this method, if it helps.
@@ -108,9 +132,40 @@ public class EarthquakeCityMap extends PApplet {
 
 	// helper method to draw key in GUI
 	// TODO: Implement this method to draw the key
+	// DONE:
 	private void addKey() 
 	{	
 		// Remember you can use Processing's graphics methods here
-	
+		fill(255,253,208);
+		rect(20, 50, 150, 500);
+		
+		textSize(12);
+		String s = "Earthquake Key";
+		fill(50);
+		text(s,45,100);
+
+		fill(255, 0, 0);
+		ellipse(45,150,20,20);
+		
+		textSize(12);
+		s = "5.0+ Magnitude";
+		fill(50);
+		text(s,65,150);
+		
+		fill(255, 255, 0);
+		ellipse(45,200,10,10);
+		
+		textSize(12);
+		s = "4.0+ Magnitude";
+		fill(50);
+		text(s,65,200);
+		
+		fill(0, 0, 255);
+		ellipse(45,250,5,5);
+		
+		textSize(12);
+		s = "Below 4.0 ";
+		fill(50);
+		text(s,65,250);
 	}
 }
