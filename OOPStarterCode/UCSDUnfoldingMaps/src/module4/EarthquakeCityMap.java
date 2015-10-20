@@ -98,7 +98,7 @@ public class EarthquakeCityMap extends PApplet {
 		//     STEP 3: read in earthquake RSS feed
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    quakeMarkers = new ArrayList<Marker>();
-	    
+    
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
@@ -134,7 +134,7 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 500);
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
@@ -142,16 +142,42 @@ public class EarthquakeCityMap extends PApplet {
 		text("Earthquake Key", 50, 75);
 		
 		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
-		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
-		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		triangle(50, 125, 50-10, 125+10, 50+10, 125+10);
+		fill(color(255, 255, 255));
+		ellipse(50, 175, 15, 15);
+		fill(color(255, 255, 255));
+		rect(50, 225, 10, 10);
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("City Marker", 75, 125);
+		text("Land Quake", 75, 175);
+		text("Ocean Quake", 75, 225);
+		
+		text("Size ~ Magnitude",50,275);
+		
+		fill(color(255, 255, 0));
+		ellipse(50, 300, 15, 15);
+		fill(0);
+		text("Shallow", 75, 300);
+
+		fill(color(0, 0, 255));
+		ellipse(50, 325, 15, 15);
+		fill(0);
+		text("Intermediate", 75, 325);
+
+		fill(color(255, 0, 0));
+		ellipse(50, 350, 15, 15);
+		fill(0);
+		text("Deep", 75, 350);
+
+		fill(color(255, 255,255));
+		ellipse(50, 375, 15, 15);
+		line(50- 15/2,375-15/2,50+15/2,375+15/2);
+		line(50-15/2,375+15/2,50+15/2,375-15/2);
+		fill(0);
+		text("Past Hour", 75, 375);
+
+		
 	}
 
 	
@@ -165,9 +191,18 @@ public class EarthquakeCityMap extends PApplet {
 		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
 		
 		// TODO: Implement this method using the helper method isInCountry
+		// DONE:
+		Boolean result = false;
 		
 		// not inside any country
-		return false;
+		for(Marker countryMarker:countryMarkers){
+			result = isInCountry(earthquake,countryMarker);
+			if(result == true){
+				return result;
+			}
+		}
+		
+		return result;
 	}
 	
 	// prints countries with number of earthquakes
@@ -179,6 +214,29 @@ public class EarthquakeCityMap extends PApplet {
 	private void printQuakes() 
 	{
 		// TODO: Implement this method
+		// DONE: 
+		int noOfEarthquakesInOcean = quakeMarkers.size();
+		System.out.println("No of Earthquakes toal: " + quakeMarkers.size());
+		
+		for(Marker countryMarker:countryMarkers){
+			int noOfEarthquakesInCountry = 0;
+			
+			for(Marker quakeMarker:quakeMarkers){
+					if(quakeMarker instanceof LandQuakeMarker){
+//						System.out.println(countryMarker.getProperty("name"));
+//						System.out.println(((LandQuakeMarker) quakeMarker).getCountry());
+						if(countryMarker.getProperty("name") == ((LandQuakeMarker) quakeMarker).getCountry()){
+							noOfEarthquakesInCountry++;
+						}	
+					}
+			}
+			if(noOfEarthquakesInCountry>=1){
+				System.out.println("Country Name: " + countryMarker.getProperty("name"));
+				System.out.println("No of Earthquakes: " + noOfEarthquakesInCountry);
+				noOfEarthquakesInOcean -= noOfEarthquakesInCountry;
+			}
+		}
+		System.out.println("No of Earthquakes in Ocean: " + noOfEarthquakesInOcean);
 	}
 	
 	
@@ -200,6 +258,9 @@ public class EarthquakeCityMap extends PApplet {
 					
 				// checking if inside
 				if(((AbstractShapeMarker)marker).isInsideByLocation(checkLoc)) {
+					
+					//System.out.println("Found a earthquake which is in Country: "+ country.getProperty("name"));
+					
 					earthquake.addProperty("country", country.getProperty("name"));
 						
 					// return if is inside one
@@ -211,7 +272,7 @@ public class EarthquakeCityMap extends PApplet {
 		// check if inside country represented by SimplePolygonMarker
 		else if(((AbstractShapeMarker)country).isInsideByLocation(checkLoc)) {
 			earthquake.addProperty("country", country.getProperty("name"));
-			
+			//System.out.println("Found a earthquake which is in Country: "+ country.getProperty("name"));
 			return true;
 		}
 		return false;

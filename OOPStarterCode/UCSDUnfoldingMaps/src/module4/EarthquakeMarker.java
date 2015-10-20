@@ -47,7 +47,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		// Add a radius property and then set the properties
 		java.util.HashMap<String, Object> properties = feature.getProperties();
 		float magnitude = Float.parseFloat(properties.get("magnitude").toString());
-		properties.put("radius", 2*magnitude );
+		properties.put("radius", 3*magnitude );
 		setProperties(properties);
 		this.radius = 1.75f*getMagnitude();
 	}
@@ -65,7 +65,18 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		drawEarthquake(pg, x, y);
 		
 		// OPTIONAL TODO: draw X over marker if within past day		
-		
+		if(hasOccuredInPastHour()){
+//			System.out.println("Has Occured In Past Hour");
+			pg.fill(0);
+			if(isOnLand()){
+				pg.line(x-getRadius()/2,y-getRadius()/2,x+getRadius()/2,y+getRadius()/2);
+				pg.line(x-getRadius()/2,y+getRadius()/2,x+getRadius()/2,y-getRadius()/2);
+			}else{
+				pg.line(x,y,x+getRadius(),y+getRadius());
+				pg.line(x,y+getRadius(),x+getRadius(),y);
+			}
+
+		}
 		// reset to previous styling
 		pg.popStyle();
 		
@@ -77,6 +88,14 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		//DONE:
+		if((300.0f < getDepth()) && ( getDepth()< 700.0f)){
+			pg.fill(255.0f,0.0f,0.0f);
+		}else if((70.0f < getDepth()) && ( getDepth()< 300.0f)){
+			pg.fill(0.0f,0.0f,255.0f);
+		}else if((0f < getDepth()) && ( getDepth()< 70.0f)){
+			pg.fill(255.0f,255.0f,0.0f);
+		}
 	}
 	
 	
@@ -106,5 +125,13 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		return isOnLand;
 	}
 	
+	public String getAge() {
+		//System.out.println(getProperty("age").toString());
+		return getProperty("age").toString();
+	}
+	
+	private boolean hasOccuredInPastHour(){
+		return getAge().equals("Past Hour");
+	}
 	
 }
