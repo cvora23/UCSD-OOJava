@@ -133,7 +133,6 @@ public class EarthquakeCityMap extends PApplet {
 		if (lastSelected != null) {
 			lastSelected.setSelected(false);
 			lastSelected = null;
-		
 		}
 		selectMarkerIfHover(quakeMarkers);
 		selectMarkerIfHover(cityMarkers);
@@ -146,6 +145,15 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		// DONE:
+		for(Marker m :markers){
+			CommonMarker marker = (CommonMarker)m;
+			if(marker.isInside(map,mouseX,mouseY) && lastSelected == null){
+				lastSelected = marker;
+				lastSelected.setSelected(true);
+				break;
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
@@ -159,17 +167,94 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		// clear the last selection
+		// DONE:
+	
+		unhideMarkers();
+		
+		if (lastClicked != null) {
+			lastClicked.setSelected(false);
+			lastClicked = null;
+		}
+		selectMarkerIfClicked(quakeMarkers);
+		selectMarkerIfClicked(cityMarkers);
+	}
+	
+	private void selectMarkerIfClicked(List<Marker> markers){
+
+		
+		for(Marker m :markers){
+			CommonMarker marker = (CommonMarker)m;
+			if(marker.isInside(map,mouseX,mouseY) && lastClicked == null){
+				lastClicked = marker;
+				lastClicked.setSelected(true);
+				hideMarkers();
+				displayThreatCircleArea(lastClicked);
+				break;
+			}
+		}
+	}
+	
+	private void displayThreatCircleArea(CommonMarker marker){
+		
+		marker.setHidden(false);
+		
+		if(marker instanceof CityMarker){
+			System.out.println("Clicked marker is CityMarker");
+			
+			for(Marker quakeMarker:quakeMarkers){
+				
+				if(Math.abs(quakeMarker.getDistanceTo(marker.getLocation())) < ((EarthquakeMarker) quakeMarker).threatCircle()){
+					quakeMarker.setHidden(false);
+					
+					System.out.println("Distance between city and nearby earthquake zone: " + 
+											Math.abs(quakeMarker.getDistanceTo(marker.getLocation())));
+					System.out.println("Earthquake Zones threatCircle = " + ((EarthquakeMarker) quakeMarker).threatCircle());
+				}
+			}
+			
+		}else if(marker instanceof EarthquakeMarker){
+			System.out.println("Clicked marker is EarthquakeMarker");
+			
+			for(Marker cityMarker:cityMarkers){
+				
+				if(cityMarker.getDistanceTo(marker.getLocation()) < ((EarthquakeMarker) marker).threatCircle()){
+					cityMarker.setHidden(false);
+					
+					System.out.println("Distance between city and nearby earthquake zone: " + 
+							Math.abs(cityMarker.getDistanceTo(marker.getLocation())));
+					System.out.println("Earthquake Zones threatCircle = " + ((EarthquakeMarker) marker).threatCircle());
+				}			
+			}
+		}
 	}
 	
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
+		
+//		System.out.println("unhideMarkers");
+		
 		for(Marker marker : quakeMarkers) {
 			marker.setHidden(false);
 		}
 			
 		for(Marker marker : cityMarkers) {
 			marker.setHidden(false);
+		}
+	}
+	
+	// loop over and hide all markers
+	private void hideMarkers() {
+		
+//		System.out.println("hideMarkers");
+		
+		for(Marker marker : quakeMarkers) {
+			marker.setHidden(true);
+		}
+			
+		for(Marker marker : cityMarkers) {
+			marker.setHidden(true);
 		}
 	}
 	
