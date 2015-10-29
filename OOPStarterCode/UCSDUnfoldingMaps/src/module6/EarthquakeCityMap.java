@@ -225,11 +225,11 @@ public class EarthquakeCityMap extends PApplet {
 	private void checkCitiesForClick()
 	{
 		if (lastClicked != null) return;
-		// Loop over the earthquake markers to see if one of them is selected
+		// Loop over the city markers to see if one of them is selected
 		for (Marker marker : cityMarkers) {
 			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker)marker;
-				// Hide all the other earthquakes and hide
+				// Hide all the other cities and hide
 				for (Marker mhide : cityMarkers) {
 					if (mhide != lastClicked) {
 						mhide.setHidden(true);

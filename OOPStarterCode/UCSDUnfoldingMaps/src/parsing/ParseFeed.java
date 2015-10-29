@@ -211,10 +211,17 @@ public class ParseFeed {
 			
 			// check that both airports on route have OpenFlights Identifier
 			if(!columns[3].equals("\\N") && !columns[5].equals("\\N")){
-				// set "source" property to be OpenFlights identifier for source airport
-				route.putProperty("source", columns[3]);
-				// "destination property" -- OpenFlights identifier
-				route.putProperty("destination", columns[5]);
+				// set "source" property to be IATA identifier for source airport
+				if(!columns[2].equals("\\N"))
+					route.putProperty("source", columns[2]);
+				// "destination property" -- IATA identifier
+				if(!columns[4].equals("\\N"))
+					route.putProperty("destination", columns[4]);
+				
+				// set "sourceId" property to be OpenFlights identifier for source airport
+				route.putProperty("sourceId", columns[3]);
+				// "destinationId property" -- OpenFlights identifier
+				route.putProperty("destinationId", columns[5]);
 				
 				routes.add(route);
 			}
