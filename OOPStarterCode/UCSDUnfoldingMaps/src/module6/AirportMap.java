@@ -11,6 +11,7 @@ import de.fhpotsdam.unfolding.data.ShapeFeature;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimpleLinesMarker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
+import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import de.fhpotsdam.unfolding.geo.Location;
 import parsing.ParseFeed;
@@ -40,7 +41,7 @@ public class AirportMap extends PApplet {
 		horLoc = 350;
 		f = createFont("Jokerman",72,true);
 		// setting up map and default events
-		map = new UnfoldingMap(this, 800, 50, 650, 600);
+		map = new UnfoldingMap(this, 800, 50, 650, 600,new Google.GoogleMapProvider());
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// get features from airport data
