@@ -41,6 +41,15 @@ public abstract class Document {
 		
 		return tokens;
 	}
+
+	// Useful for testing
+	protected void iterateThroughTokens(String heading,List<String>tokens){
+		System.out.println();
+		System.out.println("Tokens are");
+		for(String token:tokens){
+			System.out.println(token);
+		}
+	}
 	
 	// This is a helper function that returns the number of syllables
 	// in a word.  You should write this and use it in your 

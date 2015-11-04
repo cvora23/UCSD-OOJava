@@ -42,9 +42,22 @@ public class EfficientDocument extends Document {
 		// Provide this first line in the starter code.  
 		// Words are only strings of letters.  No numbers.
 		List<String> tokens = getTokens("[!?.]+|[a-zA-Z]+");
-		
-		// TODO: Finish this method.  Remember the countSyllables method from 
-		// Document.  That will come in handy here.
+		//Calculating number of words
+		for(String token:tokens){
+			if(isWord(token)){
+				numWords ++;
+				numSyllables += countSyllables(token);	
+			}
+			else{
+				numSentences++;
+			}
+		}
+		String entireText = getText();
+		if(!entireText.isEmpty() && 
+				!entireText.endsWith("!") && !entireText.endsWith("?") && !entireText.endsWith(".")
+				){
+			numSentences++;
+		}
 	}
 	
 	
@@ -58,7 +71,8 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-	    return 0;
+		//DONE:
+		return numWords;
 	}
 
 	/**
@@ -72,7 +86,8 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSentences() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+		//DONE:
+        return numSentences;
 	}
 
 	/**
@@ -86,7 +101,8 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+		//DONE:
+        return numSyllables;
 	}
 	
 	// Can be used for testing
@@ -97,10 +113,9 @@ public class EfficientDocument extends Document {
                 + "Senteeeeeeeeeences are here... there should be 5!  Right?"),
                 16, 13, 5);
         testCase(new EfficientDocument(""), 0, 0, 0);
-        testCase(new EfficientDocument("sentence, with, lots, of, commas.!  "
-                + "(And some poaren)).  The output is: 7.5."), 15, 11, 4);
         testCase(new EfficientDocument("many???  Senteeeeeeeeeences are"), 6, 3, 2);    
-		
+        testCase(new EfficientDocument("sentence, with, lots, of, commas.!  "
+                + "(And some poaren)).  The output is: 7.5."), 15, 11, 4);		
 	}
 	
 

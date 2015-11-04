@@ -55,7 +55,7 @@ public class BasicDocument extends Document
         // if you need help.
 		//DONE:
         int numSentences = 0;
-		List<String>tokens = getTokens("[!?.]+");
+		List<String>tokens = getTokens("[^!?.]+");
 		if(!tokens.isEmpty()){
 			//iterateThroughTokens("Sentences",tokens);
 			numSentences += tokens.size();
@@ -92,15 +92,6 @@ public class BasicDocument extends Document
 		}
 		return numSyllables;
 	}
-
-	private void iterateThroughTokens(String heading,List<String>tokens){
-		System.out.println();
-		System.out.println("Tokens are");
-		for(String token:tokens){
-			System.out.println(token);
-		}
-	}
-	
 	
 	/* The main method for testing this class. 
 	 * You are encouraged to add your own tests.  */
