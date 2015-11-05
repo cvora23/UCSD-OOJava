@@ -22,7 +22,8 @@ public class IataCodeReader {
 	public static String getCityNameGivenIataCode(String iataCode) throws IOException{
 		
 		String cityName = null;
-		String excelFilePath = "C:\\Users\\cvora\\Downloads\\airport-codes.xls";
+		String excelFilePath = "C:\\Users\\cvora\\git\\UCSD-OOJava\\OOPStarterCode"
+				+ "\\UCSDUnfoldingMaps\\data\\airport-codes.xls";
 		
 		FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 		HSSFWorkbook  workbook = new HSSFWorkbook(inputStream);
