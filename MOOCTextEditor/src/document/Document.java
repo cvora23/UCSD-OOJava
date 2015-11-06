@@ -22,6 +22,11 @@ public abstract class Document {
 		this.text = text;
 	}
 	
+	protected Document()
+	{
+		
+	}
+	
 	/** Returns the tokens that match the regex pattern from the document 
 	 * text string.
 	 * @param pattern A regular expression string specifying the 
@@ -149,6 +154,10 @@ public abstract class Document {
 	
 	/** Return the number of syllables in this document */
 	public abstract int getNumSyllables();
+	
+	protected void setText(String text){
+		this.text = text;
+	}
 	
 	/** Return the entire text of this document */
 	public String getText()

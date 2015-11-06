@@ -55,11 +55,10 @@ public class MyLinkedListTester {
 	{
 		//test empty list, get should throw an exception
 		try {
-			emptyList.get(0);
+			emptyList.get(-1);
 			fail("Check out of bounds");
 		}
 		catch (IndexOutOfBoundsException e) {
-			
 		}
 		
 		// test short list, first contents, then out of bounds
@@ -124,6 +123,8 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		// DONE:
+		assertEquals("Size should be 3 ", 3, list1.size());
 		
 	}
 

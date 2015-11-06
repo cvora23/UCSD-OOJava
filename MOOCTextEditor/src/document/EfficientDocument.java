@@ -1,5 +1,6 @@
 package document;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /** 
@@ -15,10 +16,31 @@ public class EfficientDocument extends Document {
 	private int numSentences;  // The number of sentences in the document
 	private int numSyllables;  // The number of syllables in the document
 	
+	private LinkedList<String>wordList = new LinkedList<String>();
+	
 	public EfficientDocument(String text)
 	{
 		super(text);
+		cleanUp();
 		processText();
+	}
+	
+	public EfficientDocument()
+	{
+		super();
+	}
+	
+	public void setAndProcessText(String text){
+		setText(text);
+		cleanUp();
+		processText();
+	}
+	
+	private void cleanUp(){
+		numWords = 0;
+		numSentences = 0;
+		numSyllables = 0;
+		wordList.clear();
 	}
 	
 	
@@ -46,6 +68,7 @@ public class EfficientDocument extends Document {
 		for(String token:tokens){
 			if(isWord(token)){
 				numWords ++;
+				addToWordList(token);
 				numSyllables += countSyllables(token);	
 			}
 			else{
@@ -60,6 +83,13 @@ public class EfficientDocument extends Document {
 		}
 	}
 	
+	private void addToWordList(String word){
+		wordList.add(word);
+	}
+	
+	public LinkedList<String> getWordList(){
+		return wordList;
+	}
 	
 	/**
 	 * Get the number of words in the document.
