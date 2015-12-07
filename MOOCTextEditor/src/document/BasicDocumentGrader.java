@@ -16,6 +16,8 @@ public class BasicDocumentGrader {
             PrintWriter out = new PrintWriter("grader_output/module1.part1.out", "utf-8");
             while ((line = br.readLine()) != null)
             {
+            	//System.out.println();
+            	//System.out.println(line);
                 BasicDocument doc = new BasicDocument(line);
                 String result = doc.getNumSentences() + " " + doc.getNumWords() + " " + doc.getNumSyllables() + " ";
                 System.out.print(result);

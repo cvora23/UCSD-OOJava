@@ -24,17 +24,17 @@ public class EfficientDocument extends Document {
 		cleanUp();
 		processText();
 	}
-	
-	public EfficientDocument()
-	{
-		super();
-	}
-	
-	public void setAndProcessText(String text){
-		setText(text);
-		cleanUp();
-		processText();
-	}
+//	
+//	public EfficientDocument()
+//	{
+//		super();
+//	}
+//	
+//	public void setAndProcessText(String text){
+//		setText(text);
+//		cleanUp();
+//		processText();
+//	}
 	
 	private void cleanUp(){
 		numWords = 0;

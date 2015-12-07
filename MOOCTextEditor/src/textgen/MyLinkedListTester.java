@@ -55,7 +55,7 @@ public class MyLinkedListTester {
 	{
 		//test empty list, get should throw an exception
 		try {
-			emptyList.get(-1);
+			emptyList.get(0);
 			fail("Check out of bounds");
 		}
 		catch (IndexOutOfBoundsException e) {
@@ -108,12 +108,47 @@ public class MyLinkedListTester {
 	@Test
 	public void testRemove()
 	{
+		// TODO: Add more tests here
+		// DONE:
+		//test empty list, remove should throw an exception
+		try {
+			emptyList.remove(0);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		}
+		try {
+			shortList.remove(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		try {
+			shortList.remove(2);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
 		int a = list1.remove(0);
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
-		// TODO: Add more tests here
+		// test short list, first contents, then out of bounds
+		assertEquals("Check first", "A", shortList.remove(0));
+		
+		try {
+			shortList.remove(1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		
+		assertEquals("Check second", "B", shortList.remove(0));
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -126,6 +161,13 @@ public class MyLinkedListTester {
 		// DONE:
 		assertEquals("Size should be 3 ", 3, list1.size());
 		
+		assertEquals("Add should return false",false,emptyList.add(null));
+		assertEquals("Add should return true",true,emptyList.add(1));
+		assertEquals("Size should be 1 ", 1, emptyList.size());
+
+		assertEquals("Add should return true",true,list1.add(675));
+		assertEquals("Remove: check element 3 is correct ", (Integer)675, list1.get(3));
+		
 	}
 
 	
@@ -134,6 +176,11 @@ public class MyLinkedListTester {
 	public void testSize()
 	{
 		// TODO: implement this test
+		// DONE:
+		assertEquals("Size should be 3 ", 3, list1.size());
+		assertEquals("Size should be 0 ", 0, emptyList.size());
+		assertEquals("Size should be 2 ", 2, shortList.size());
+
 	}
 
 	
@@ -146,7 +193,26 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
-		
+		// DONE:
+
+		assertEquals("Size should be 0 ", 0, emptyList.size());
+		try {
+			emptyList.add(1, 34);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+		}
+		emptyList.add(0, 32);
+		assertEquals("Remove: check element 0 is correct ", (Integer)32, emptyList.get(0));
+		try {
+			emptyList.add(1,null);
+			fail("Check out NullPointerException");
+		}
+		catch (NullPointerException e) {
+			
+		}
+
 	}
 	
 	/** Test setting an element in the list */
@@ -154,7 +220,32 @@ public class MyLinkedListTester {
 	public void testSet()
 	{
 	    // TODO: implement this test
-	    
+		// DONE:
+		try {
+			emptyList.add(0,null);
+			fail("Check out NullPointerException");
+		}
+		catch (NullPointerException e) {
+			
+		}
+		try {
+			shortList.set(-1,"C");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		try {
+			shortList.set(3,"C");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		assertEquals("Current Element set at index 0 should be A","A",shortList.set(0, "D"));
+		assertEquals("Current Element set at index 0 should be D","D",shortList.get(0));
+
 	}
 	
 	

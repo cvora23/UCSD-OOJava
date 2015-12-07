@@ -50,17 +50,22 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	{
 		// TODO: Implement this method
 		// DONE:
-		cleanUpInternally();
-		starter = "";
-		ArrayList<String>mWordList =  (ArrayList<String>) getTokens("[a-zA-Z]+",sourceText);
-		for(String word:mWordList){
-			ListNode listNode = checkIfWordNodeInList(starter);
-			validateAndAddToWordList(listNode,starter,word);
-			starter = word;
+		if(!sourceText.isEmpty()){
+			
+			starter = "";
+			ArrayList<String>mWordList =  (ArrayList<String>) getTokens("[a-zA-Z]+",sourceText);
+			for(String word:mWordList){
+				ListNode listNode = checkIfWordNodeInList(starter);
+				validateAndAddToWordList(listNode,starter,word);
+				starter = word;
+			}
+			// For Last node
+			ListNode lastNode = checkIfWordNodeInList(starter);
+			validateAndAddToWordList(lastNode,starter,"");
 		}
-		// For Last node
-		ListNode lastNode = checkIfWordNodeInList(starter);
-		validateAndAddToWordList(lastNode,starter,"");
+		else{
+			return;
+		}
 	}
 	
 	/** 
@@ -70,19 +75,25 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public String generateText(int numWords) {
 	    // TODO: Implement this method
 		// DONE:
+
 		starter = "";
 		String output = "";
-		for(int i=0;i<numWords;i++){
-			ListNode listNode = checkIfWordNodeInList(starter);
-			String randomWord = listNode.getRandomNextWord(rnGenerator);
-			if(randomWord.isEmpty()){
-				i--;
-				starter = "";
-			}else{
-				output += randomWord;
-				output += " ";
-				starter = randomWord;
+		if(wordList.size()>0){
+			for(int i=0;i<numWords;i++){
+				ListNode listNode = checkIfWordNodeInList(starter);
+				String randomWord = listNode.getRandomNextWord(rnGenerator);
+				if(randomWord.isEmpty()){
+					i--;
+					starter = "";
+				}else{
+					output += randomWord;
+					output += " ";
+					starter = randomWord;
+				}
 			}
+		}
+		else{
+			
 		}
 		return output;
 	}
@@ -105,6 +116,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	{
 		// TODO: Implement this method.
 		// DONE:
+		cleanUpInternally();
 		train(sourceText);
 	}
 	

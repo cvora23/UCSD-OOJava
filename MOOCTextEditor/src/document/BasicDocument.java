@@ -58,12 +58,13 @@ public class BasicDocument extends Document
 		List<String>tokens = getTokens("[^!?.]+");
 		if(!tokens.isEmpty()){
 			//iterateThroughTokens("Sentences",tokens);
+			//System.out.println("getNumSentences, no of tokens = "+tokens.size());
 			numSentences += tokens.size();
 		}
-		if(!getText().isEmpty() && !getText().endsWith("!") && 
-				!getText().endsWith("?") && !getText().endsWith(".")){
-			numSentences += 1;
-		}
+//		if(!getText().isEmpty() && !getText().endsWith("!") && 
+//				!getText().endsWith("?") && !getText().endsWith(".")){
+//			numSentences += 1;
+//		}
 		return numSentences;
 
 	}

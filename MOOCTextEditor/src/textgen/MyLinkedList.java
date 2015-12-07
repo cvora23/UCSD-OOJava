@@ -113,7 +113,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		// TODO: Implement this method
 		// DONE:
-		if(index<0 || index>size){
+		if(index<0 || index>=size){
 			throw new IndexOutOfBoundsException();
 		}else{
 			int mIndex = 0;
@@ -146,20 +146,25 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E set(int index, E element) 
 	{
 		// TODO: Implement this method
+		// DONE:
 		if(index<0 || index>size){
 			throw new IndexOutOfBoundsException();
 		}else{
-			int mIndex = 0;
-			LLNode<E> current = head;
-			LLNode<E> nodeToBeRemoved = null;
-			while((current.next != null) && (!current.next.equals(tail)) && 
-					(mIndex != index)){
-				current = current.next;
-				mIndex++;
+			if(element != null){
+				int mIndex = 0;
+				LLNode<E> current = head;
+				LLNode<E> nodeToBeRemoved = null;
+				while((current.next != null) && (!current.next.equals(tail)) && 
+						(mIndex != index)){
+					current = current.next;
+					mIndex++;
+				}
+				nodeToBeRemoved = current.next;
+				new LLNode<E>(element,current);
+				return nodeToBeRemoved.data;
+			}else{
+				throw new NullPointerException();
 			}
-			nodeToBeRemoved = current.next;
-			new LLNode<E>(element,current);
-			return nodeToBeRemoved.data;
 		}
 	}   
 }
